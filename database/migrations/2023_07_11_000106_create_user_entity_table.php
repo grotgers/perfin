@@ -12,11 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_entity', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('entity_id');
             $table->timestamps();
-
-            $table->primary(['user_id', 'entity_id']);
 
             $table->foreign('user_id')->references('id')->on('user');
             $table->foreign('entity_id')->references('id')->on('entity');
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_country');
+        Schema::dropIfExists('user_entity');
     }
 };
