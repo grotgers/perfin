@@ -16,6 +16,11 @@ class OutcomeCategory extends Model implements Transformable
     use TransformableTrait;
 
     /**
+     * @var string
+     */
+    protected $table = 'outcome_category';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

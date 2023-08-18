@@ -16,10 +16,23 @@ class Currency extends Model implements Transformable
     use TransformableTrait;
 
     /**
+     * @var string
+     */
+    protected $table = 'currency';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'symbol',
+        "symbol_native",
+        "decimal_digits",
+        "rounding",
+        "code",
+        "name_plural",
+    ];
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Contracts\Repositories\CurrencyRepository;
 use FreeCurrencyApi\FreeCurrencyApi\FreeCurrencyApiException;
 use Illuminate\Console\Command;
 
@@ -28,11 +29,28 @@ class ImportCurrency extends Command
      *
      * @throws FreeCurrencyApiException
 */
-    public function handle(FreeCurrencyApiClient $freeCurrencyApiClient): void
+    public function handle(
+        FreeCurrencyApiClient $freeCurrencyApiClient,
+        CurrencyRepository $currencyRepository
+    ): void
     {
         $currencies = 'USD,EUR,MXN';
 
         $currenciesResponse = $freeCurrencyApiClient->currencies([ 'currencies' => $currencies ]);
+
+        foreach ($currenciesResponse['data'] as $currencyNameResponse => $currencyResponse)
+        {
+            $currencyRepository->updateOrCreate([
+                'name' => $currencyNameResponse
+            ], [
+                'symbol'         => $currencyResponse['symbol'],
+                "symbol_native"  => $currencyResponse['symbol_native'],
+                "decimal_digits" => $currencyResponse['decimal_digits'],
+                "rounding"       => $currencyResponse['rounding'],
+                "code"           => $currencyResponse['code'],
+                "name_plural"    => $currencyResponse['name_plural']
+            ]);
+        }
 
     }
 }

@@ -16,6 +16,11 @@ class IncomeCategory extends Model implements Transformable
     use TransformableTrait;
 
     /**
+     * @var string
+     */
+    protected $table = 'income_category';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
